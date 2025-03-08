@@ -1,0 +1,148 @@
+/* SignInForm.css */
+
+/* Body and general styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Light background */
+  margin: 0;
+  padding: 20px;
+}
+
+/* Centered Conference Titles */
+.conference-title {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  color: #4a2c2a;
+  padding: 15px;
+  margin: 20px auto;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  width: 80%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.conference-location {
+  font-size: 1.8em;
+  font-weight: normal;
+  text-align: center;
+  color: #555;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  width: 60%;
+  margin: 10px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 1em;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Form Styling */
+form {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 600px;
+  margin: auto;
+}
+
+div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #4a2c2a; /* Dark brown for labels */
+}
+
+/* Input Fields and Select Dropdown */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Error Message Styling */
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+/* Submit Button Styling */
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* MPesa Message Textarea Styling */
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .conference-title {
+    font-size: 2em;
+    padding: 10px;
+  }
+
+  .conference-location {
+    font-size: 1.5em;
+    width: 80%;
+  }
+
+  form {
+    width: 100%;
+    padding: 15px;
+  }
+
+  button {
+    font-size: 18px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 14px;
+  }
+}
