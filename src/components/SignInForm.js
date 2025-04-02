@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import emailService from "../services/Emailservice";
-import countries from "./countries"; // Import the countries array
-import "./SignInForm.css"; // Assuming you have some CSS for styling
+import countries from "./countries";
+import "./SignInForm.css";
 
-const SignInForm = () => {
+const SignInForm = ({ setShowDownload }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     age: "",
-    gender: "Male", // Default gender
-    amountPaid: 200, // Default amount paid
-    position: "Pastor", // Default position
-    country: "", // Selected country
-    town: "", // User input for town
-    mpesaMessage: "", // For storing the MPesa message
-    whatsappNo: "", // For storing WhatsApp number
+    gender: "Male",
+    amountPaid: 200,
+    position: "Pastor",
+    country: "",
+    town: "",
+    mpesaMessage: "",
+    whatsappNo: "",
   });
 
-  const [errors, setErrors] = useState({}); // State for error messages
+  const [errors, setErrors] = useState({});
+
+  const handleDownloadClick = () => {
+    setShowDownload(true); // Trigger the download page to be shown
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,29 +43,42 @@ const SignInForm = () => {
       setErrors(validationErrors);
       return;
     } else {
-      setErrors({}); // Clear errors if validation passes
+      setErrors({});
     }
 
     try {
+      // Send email
       await emailService.sendEmail(formData);
-      alert("Registration email sent successfully!");
 
-      // Clear the form after submission
+      // Send to API
+      const response = await fetch("https://regbackend-1.onrender.com/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to register. Please try again.");
+      }
+      alert("Registration successful! Email sent & data stored.");
+
       setFormData({
         name: "",
         email: "",
         age: "",
-        gender: "Male", // Reset to default
-        amountPaid: 200, // Reset to default
-        position: "Pastor", // Reset to default
-        country: "", // Reset to default
-        town: "", // Reset to default
-        mpesaMessage: "", // Clear MPesa message
-        whatsappNo: "", // Clear WhatsApp number
+        gender: "Male",
+        amountPaid: 200,
+        position: "Pastor",
+        country: "",
+        town: "",
+        mpesaMessage: "",
+        whatsappNo: "",
       });
     } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to send email. Please try again.");
+      console.error("Error:", error);
+      alert("Error occurred. Please try again.");
     }
   };
 
@@ -78,65 +95,28 @@ const SignInForm = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Your Name"
-            required
-            onChange={handleChange}
-            value={formData.name}
-          />
-          {errors.name && <span className="error">{errors.name}</span>}
+          <input type="text" name="name" id="name" required onChange={handleChange} value={formData.name} />
         </div>
         <div>
           <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Your Email"
-            required
-            onChange={handleChange}
-            value={formData.email}
-          />
+          <input type="email" name="email" id="email" required onChange={handleChange} value={formData.email} />
           {errors.email && <span className="error">{errors.email}</span>}
         </div>
         <div>
           <label htmlFor="age">Age:</label>
-          <input
-            type="number"
-            name="age"
-            id="age"
-            placeholder="Your Age"
-            required
-            onChange={handleChange}
-            value={formData.age}
-          />
+          <input type="number" name="age" id="age" required onChange={handleChange} value={formData.age} />
           {errors.age && <span className="error">{errors.age}</span>}
         </div>
         <div>
           <label htmlFor="gender">Gender:</label>
-          <select
-            name="gender"
-            id="gender"
-            required
-            onChange={handleChange}
-            value={formData.gender}
-          >
+          <select name="gender" id="gender" required onChange={handleChange} value={formData.gender}>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
         </div>
         <div>
           <label htmlFor="position">Position:</label>
-          <select
-            name="position"
-            id="position"
-            required
-            onChange={handleChange}
-            value={formData.position}
-          >
+          <select name="position" id="position" required onChange={handleChange} value={formData.position}>
             <option value="Pastor">Pastor</option>
             <option value="Bishop">Bishop</option>
             <option value="Evangelist">Evangelist</option>
@@ -144,67 +124,31 @@ const SignInForm = () => {
         </div>
         <div>
           <label htmlFor="country">Country:</label>
-          <select
-            name="country"
-            id="country"
-            required
-            onChange={handleChange}
-            value={formData.country}
-          >
+          <select name="country" id="country" required onChange={handleChange} value={formData.country}>
             <option value="">Select a country</option>
             {countries.map((country, index) => (
-              <option key={index} value={country}>
-                {country}
-              </option>
+              <option key={index} value={country}>{country}</option>
             ))}
           </select>
         </div>
         <div>
           <label htmlFor="town">Town:</label>
-          <input
-            type="text"
-            name="town"
-            id="town"
-            placeholder="Enter your town"
-            required
-            onChange={handleChange}
-            value={formData.town}
-          />
+          <input type="text" name="town" id="town" required onChange={handleChange} value={formData.town} />
         </div>
         <div>
           <label htmlFor="mpesaMessage">MPesa Message:</label>
-          <textarea
-            name="mpesaMessage"
-            id="mpesaMessage"
-            placeholder="Enter the MPesa transaction message"
-            required
-            onChange={handleChange}
-            value={formData.mpesaMessage}
-          />
+          <textarea name="mpesaMessage" id="mpesaMessage" required onChange={handleChange} value={formData.mpesaMessage} />
         </div>
         <div>
           <label htmlFor="whatsappNo">WhatsApp Number:</label>
-          <input
-            type="text"
-            name="whatsappNo"
-            id="whatsappNo"
-            placeholder="Enter your WhatsApp number"
-            required
-            onChange={handleChange}
-            value={formData.whatsappNo}
-          />
+          <input type="text" name="whatsappNo" id="whatsappNo" required onChange={handleChange} value={formData.whatsappNo} />
         </div>
         <div>
           <label htmlFor="amountPaid">Amount Paid:</label>
-          <input
-            type="number"
-            name="amountPaid"
-            id="amountPaid"
-            value={formData.amountPaid}
-            readOnly
-          />
+          <input type="number" name="amountPaid" id="amountPaid" value={formData.amountPaid} readOnly />
         </div>
         <button type="submit">Register</button>
+        <button type="button" onClick={handleDownloadClick}>Download</button>
       </form>
     </div>
   );

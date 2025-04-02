@@ -7,6 +7,21 @@ body {
   margin: 0;
   padding: 20px;
 }
+.download-btn {
+  background-color: #00aaff; /* Sky blue */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.download-btn:hover {
+  background-color: #0088cc; /* Slightly darker sky blue */
+}
 
 /* Centered Conference Titles */
 .conference-title {

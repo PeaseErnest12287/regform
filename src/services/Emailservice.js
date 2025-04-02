@@ -4,26 +4,30 @@ const emailService = {
   sendEmail: async (data) => {
     const templateParams = {
       from_name: data.name,
-      to_email: data.email, // Send to the inputted email
+      to_email: data.email,
       user_age: data.age,
       user_gender: data.gender,
-      user_position: data.position, // Include position
-      user_country: data.country, // Include country
-      user_town: data.town, // Include town
+      user_position: data.position,
+      user_country: data.country,
+      user_town: data.town,
       amount_paid: data.amountPaid,
-      mpesa_message: data.mpesaMessage, // Include MPesa message
-      whatsapp_no: data.whatsappNo, // Include WhatsApp number
+      mpesa_message: data.mpesaMessage,
+      whatsapp_no: data.whatsappNo,
     };
+
+    console.log("Template Params:", templateParams); // Log for debugging
 
     try {
       await emailjs.send(
-        "pease12287", // Your EmailJS service ID
-        "template_bi7p28p", // Your EmailJS template ID
+        "service_icc2fbw", // Your EmailJS service ID
+        "template_0zljxic", // Your EmailJS template ID
         templateParams,
-        "sIZC-CiS5Pb2q4aE9" // Your EmailJS user ID
+        "x9a7g3CaO22WiSR4b" // Your EmailJS user ID
       );
+      console.log("Email sent successfully!"); // Log success message
     } catch (error) {
-      throw new Error("Email sending failed: " + error.message);
+      console.error("EmailJS Error:", error); // Log the full error object
+      throw new Error("Email sending failed: " + (error.text || error.message || "Unknown error"));
     }
   },
 };
