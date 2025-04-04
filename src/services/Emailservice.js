@@ -17,8 +17,8 @@ const emailService = {
       amount_paid: data.amountPaid,
       mpesa_message: data.mpesaMessage,
       whatsapp_no: data.whatsappNo,
-      registration_date: dateString, // Add the date to the email
-      registration_time: timeString, // Add the time to the email
+      date: dateString, // Add the date to the email
+      time: timeString, // Add the time to the email
     };
 
     console.log("Template Params:", templateParams); // Log for debugging
