@@ -150,6 +150,7 @@ const SignInForm = ({ setShowDownload }) => {
             <option value="Pastor">Pastor</option>
             <option value="Leader">Church Leader</option>
             <option value="CU Leader">CU Leader</option>
+            <option value="Others">Others</option>
           </select>
         </div>
         <div>
