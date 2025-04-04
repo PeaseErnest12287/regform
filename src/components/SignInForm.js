@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import emailService from "../services/Emailservice";
 import countries from "./countries";
 import "./SignInForm.css";
@@ -15,9 +15,23 @@ const SignInForm = ({ setShowDownload }) => {
     town: "",
     mpesaMessage: "",
     whatsappNo: "",
+    churchInstitution: "", // User will input this
+    systemDate: "", // System date will be set here
+    systemTime: "", // System time will be set here
   });
 
   const [errors, setErrors] = useState({});
+
+  // Set the system date and time when the component is mounted
+  useEffect(() => {
+    const currentDate = new Date().toLocaleDateString(); // Format date as MM/DD/YYYY
+    const currentTime = new Date().toLocaleTimeString(); // Format time as HH:MM:SS
+    setFormData((prevData) => ({
+      ...prevData,
+      systemDate: currentDate,
+      systemTime: currentTime,
+    }));
+  }, []);
 
   const handleDownloadClick = () => {
     setShowDownload(true); // Trigger the download page to be shown
@@ -75,6 +89,9 @@ const SignInForm = ({ setShowDownload }) => {
         town: "",
         mpesaMessage: "",
         whatsappNo: "",
+        churchInstitution: "", // Reset church/institution field
+        systemDate: "", // Reset system date
+        systemTime: "", // Reset system time
       });
     } catch (error) {
       console.error("Error:", error);
@@ -114,13 +131,24 @@ const SignInForm = ({ setShowDownload }) => {
             <option value="Female">Female</option>
           </select>
         </div>
+        {/* Church/Organization/Institution field for user input */}
+        <div>
+          <label htmlFor="churchInstitution">Church/Organization/Institution:</label>
+          <input
+            type="text"
+            name="churchInstitution"
+            id="churchInstitution"
+            required
+            onChange={handleChange}
+            value={formData.churchInstitution}
+          />
+        </div>
         <div>
           <label htmlFor="position">Position:</label>
-          <select name="position" id="position" required onChange={handleChange} value={formData.position}><option value="Bishop">Bishop</option>
+          <select name="position" id="position" required onChange={handleChange} value={formData.position}>
+            <option value="Bishop">Bishop</option>
             <option value="Pastor">Pastor</option>
-
             <option value="Leader">Church Leader</option>
-
           </select>
         </div>
         <div>
@@ -128,7 +156,9 @@ const SignInForm = ({ setShowDownload }) => {
           <select name="country" id="country" required onChange={handleChange} value={formData.country}>
             <option value="">Select a country</option>
             {countries.map((country, index) => (
-              <option key={index} value={country}>{country}</option>
+              <option key={index} value={country}>
+                {country}
+              </option>
             ))}
           </select>
         </div>
@@ -148,8 +178,20 @@ const SignInForm = ({ setShowDownload }) => {
           <label htmlFor="amountPaid">Amount Paid:</label>
           <input type="number" name="amountPaid" id="amountPaid" value={formData.amountPaid} readOnly />
         </div>
+        {/* System Date field */}
+        <div>
+          <label htmlFor="systemDate"> Date:</label>
+          <input type="text" name="systemDate" id="systemDate" value={formData.systemDate} readOnly />
+        </div>
+        {/* System Time field */}
+        <div>
+          <label htmlFor="systemTime"> Time:</label>
+          <input type="text" name="systemTime" id="systemTime" value={formData.systemTime} readOnly />
+        </div>
         <button type="submit">Register</button>
-        <button type="button" onClick={handleDownloadClick}>Download</button>
+        <button type="button" onClick={handleDownloadClick}>
+          Download
+        </button>
       </form>
     </div>
   );

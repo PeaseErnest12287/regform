@@ -1,7 +1,11 @@
-import emailjs from "emailjs-com";
-
 const emailService = {
   sendEmail: async (data) => {
+    // Get the current date and time
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleDateString(); // Format date (you can customize this)
+    const timeString = currentDate.toLocaleTimeString(); // Format time
+
+    // Prepare the email template parameters
     const templateParams = {
       from_name: data.name,
       to_email: data.email,
@@ -13,21 +17,31 @@ const emailService = {
       amount_paid: data.amountPaid,
       mpesa_message: data.mpesaMessage,
       whatsapp_no: data.whatsappNo,
+      registration_date: dateString, // Add the date to the email
+      registration_time: timeString, // Add the time to the email
     };
 
     console.log("Template Params:", templateParams); // Log for debugging
 
     try {
-      await emailjs.send(
-        "service_icc2fbw", // Your EmailJS service ID
-        "template_0zljxic", // Your EmailJS template ID
-        templateParams,
-        "x9a7g3CaO22WiSR4b" // Your EmailJS user ID
-      );
-      console.log("Email sent successfully!"); // Log success message
+      // Sending data to your backend API which will handle sending the email via Nodemailer
+      const response = await fetch('https://regformbackend1.onrender.com/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateParams),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send email");
+      }
+
+      const result = await response.json();
+      console.log("Email sent successfully:", result); // Log success message
     } catch (error) {
-      console.error("EmailJS Error:", error); // Log the full error object
-      throw new Error("Email sending failed: " + (error.text || error.message || "Unknown error"));
+      console.error("Error:", error); // Log the error object
+      throw new Error("Email sending failed: " + (error.message || "Unknown error"));
     }
   },
 };
