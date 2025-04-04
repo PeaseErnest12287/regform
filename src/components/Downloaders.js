@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './DownloadComponent.css'; // Create this CSS file (code provided below)
+import React, { useState } from "react";
+import './DownloadComponent.css'; // Make sure you create this CSS file
 
 const DownloadComponent = () => {
   const [name, setName] = useState("");
@@ -8,8 +8,9 @@ const DownloadComponent = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const correctName = "admin";
-  const correctPin = "1234";
+  // 🔐 Customizable credentials
+  const correctName = "Amani";
+  const correctPin = "1234567";
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -17,8 +18,7 @@ const DownloadComponent = () => {
       setAuthenticated(true);
       setError("");
     } else {
-      setError("Incorrect credentials");
-      // Shake animation on error
+      setError("Incorrect Name or PIN!");
       const box = document.querySelector('.auth-box');
       box.classList.add('shake');
       setTimeout(() => box.classList.remove('shake'), 500);
@@ -29,7 +29,7 @@ const DownloadComponent = () => {
     setIsLoading(true);
     try {
       const response = await fetch("https://regbackend-ofty.onrender.com/download", {
-        headers: { 'Authorization': 'Basic ' + btoa('admin:1234') }
+        headers: { 'Authorization': 'Basic ' + btoa(`${correctName}:${correctPin}`) }
       });
 
       if (!response.ok) throw new Error(await response.text());
@@ -65,12 +65,12 @@ const DownloadComponent = () => {
             <h3>Admin Access Required</h3>
             
             <div className="input-group">
-              <label>Username</label>
+              <label>Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter admin username"
+                placeholder="Enter Name"
                 required
               />
             </div>
@@ -81,7 +81,7 @@ const DownloadComponent = () => {
                 type="password"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                placeholder="Enter secure PIN"
+                placeholder="Enter PIN"
                 required
               />
             </div>
@@ -120,6 +120,7 @@ const DownloadComponent = () => {
                 </>
               )}
             </button>
+            {error && <div className="error-message">{error}</div>}
           </div>
         )}
       </div>
