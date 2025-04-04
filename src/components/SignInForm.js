@@ -65,7 +65,7 @@ const SignInForm = ({ setShowDownload }) => {
       await emailService.sendEmail(formData);
 
       // Send to API
-      const response = await fetch("https://regbackend-1.onrender.com/register", {
+      const response = await fetch("https://regbackend-ofty.onrender.com/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
