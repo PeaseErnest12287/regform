@@ -42,7 +42,7 @@ const Download = () => {
       ) : (
         <div>
           <h3>Download Excel File</h3>
-          <a href="https://regbackend-1.onrender.com/download" download>
+          <a href="https://regbackend-ofty.onrender.com/download" download>
             <button>Download Excel</button>
           </a>
         </div>
