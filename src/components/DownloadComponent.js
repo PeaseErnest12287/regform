@@ -28,7 +28,7 @@ const DownloadComponent = () => {
   const handleDownload = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://regbackend-ofty.onrender.com/download-excel", {
+      const response = await fetch("https://regbackend-ofty.onrender.com/download", {
         headers: { 'Authorization': 'Basic ' + btoa('admin:1234') }
       });
 
