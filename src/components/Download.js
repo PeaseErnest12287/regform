@@ -23,7 +23,7 @@ const Download = () => {
     <div className="download-container">
       {!authenticated ? (
         <div className="auth-box">
-          <h3>Enter Name & PIN to Download</h3>
+          <h3>Enter Name & PIN to Downloaders</h3>
           <input
             type="text"
             placeholder="Enter Name"
