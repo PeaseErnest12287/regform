@@ -3,7 +3,7 @@
 /* Body and general styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4; /* Light background */
+  background-color: brown; /* Light background */
   margin: 0;
   padding: 20px;
 }
@@ -60,7 +60,7 @@ ul {
 ul li {
   font-size: 1em;
   margin-bottom: 5px;
-  color: #555;
+  color: #f9f9f9;
 }
 
 /* Form Styling */

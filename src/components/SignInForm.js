@@ -86,8 +86,8 @@ const SignInForm = ({ setShowDownload }) => {
     <div>
       <h2 className="conference-title">2025 R-Network Pastor's Conference</h2>
       <h3 className="conference-location">Kitale, Kenya</h3>
-      <ul>
-        <li>Date: 25th - 26th April, 2025</li>
+      <ul className="text">
+        <li>Date: 24th - 25th April, 2025</li>
         <li>Venue: I.C.M Waterworks road, section six estate Kitale.</li>
         <li>Starting time: 9:00 AM - 4:00 PM daily</li>
       </ul>
@@ -116,10 +116,11 @@ const SignInForm = ({ setShowDownload }) => {
         </div>
         <div>
           <label htmlFor="position">Position:</label>
-          <select name="position" id="position" required onChange={handleChange} value={formData.position}>
+          <select name="position" id="position" required onChange={handleChange} value={formData.position}><option value="Bishop">Bishop</option>
             <option value="Pastor">Pastor</option>
-            <option value="Bishop">Bishop</option>
-            <option value="Evangelist">Evangelist</option>
+
+            <option value="Leader">Church Leader</option>
+
           </select>
         </div>
         <div>
