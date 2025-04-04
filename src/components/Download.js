@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './DownloadComponent.css'; // Make sure you create this CSS file
 
-const DownloadComponent = () => {
+const Download = () => {
   const [name, setName] = useState("");
   const [pin, setPin] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
@@ -128,4 +128,4 @@ const DownloadComponent = () => {
   );
 };
 
-export default DownloadComponent;
+export default Download;
