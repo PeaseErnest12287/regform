@@ -11,6 +11,7 @@ const emailService = {
       user_gender: data.gender,
       user_position: data.position,
       user_country: data.country,
+      user_church:data.churchInstitution,
       user_town: data.town,
       amount_paid: data.amountPaid,
       mpesa_message: data.mpesaMessage,

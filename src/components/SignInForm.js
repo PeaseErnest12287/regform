@@ -55,7 +55,7 @@ const SignInForm = ({ setShowDownload }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
-    
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -85,7 +85,7 @@ const SignInForm = ({ setShowDownload }) => {
         }
         throw new Error("Failed to register. Please try again.");
       }
-      
+
       alert("Registration successful! Email sent & data stored.");
 
       setFormData({
@@ -114,7 +114,23 @@ const SignInForm = ({ setShowDownload }) => {
       setIsSubmitting(false);
     }
   };
+  useEffect(() => {
+    const particles = 20;
+    for (let i = 0; i < particles; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.width = `${Math.random() * 20 + 5}px`;
+      particle.style.height = particle.style.width;
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.top = `${Math.random() * 100}vh`;
+      particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+      document.body.appendChild(particle);
+    }
 
+    return () => {
+      document.querySelectorAll('.particle').forEach(el => el.remove());
+    };
+  }, []);
   return (
     <div className="signin-container">
       <h2 className="conference-title">2025 R-Network Pastor's Conference</h2>
@@ -127,8 +143,8 @@ const SignInForm = ({ setShowDownload }) => {
 
       <div className="warning-note">
         <p>
-          <strong>Important:</strong> Please ensure your credentials are unique. Duplicate entries will be rejected. 
-          After submission, please wait about 10 seconds for verification. You'll receive an alert confirming 
+          <strong>Important:</strong> Please ensure your credentials are unique. Duplicate entries will be rejected.
+          After submission, please wait about 10 seconds for verification. You'll receive an alert confirming
           your registration status.
         </p>
       </div>
