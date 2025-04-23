@@ -1,3 +1,5 @@
+import emailjs from 'emailjs-com';
+
 const emailService = {
   sendEmail: async (data) => {
     const currentDate = new Date();
@@ -11,7 +13,7 @@ const emailService = {
       user_gender: data.gender,
       user_position: data.position,
       user_country: data.country,
-      user_church:data.churchInstitution,
+      user_church: data.churchInstitution,
       user_town: data.town,
       amount_paid: data.amountPaid,
       mpesa_message: data.mpesaMessage,
@@ -23,6 +25,7 @@ const emailService = {
     console.log("🔥 [Frontend] Template Params Being Sent:", templateParams);
 
     try {
+      // First, try the custom API service
       const response = await fetch('https://regformbackend1.onrender.com/send-email', {
         method: 'POST',
         headers: {
@@ -43,7 +46,23 @@ const emailService = {
       console.log("✅ [Frontend] Email sent successfully:", result);
     } catch (error) {
       console.error("🚨 [Frontend] Error caught:", error);
-      throw new Error("Email sending failed: " + (error.message || "Unknown error"));
+
+      // If the first attempt fails, fall back to EmailJS
+      console.log("🔄 [Frontend] Falling back to EmailJS...");
+
+      try {
+        const emailJsResponse = await emailjs.send(
+          'service_icc2fbw ',    // Your EmailJS service ID
+          'template_0zljxi',   // Your EmailJS template ID
+          templateParams,
+          'x9a7g3CaO22WiSR4b'        // Your EmailJS user ID
+        );
+
+        console.log("✅ [Frontend] Email sent successfully via EmailJS:", emailJsResponse);
+      } catch (emailJsError) {
+        console.error("❌ [Frontend] Error while sending email via EmailJS:", emailJsError);
+        throw new Error("Email sending failed on both services: " + (emailJsError.message || "Unknown error"));
+      }
     }
   },
 };
