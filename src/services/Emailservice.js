@@ -1,13 +1,13 @@
 import emailjs from 'emailjs-com';
 
-// 🔑 Initialize EmailJS with your Public Key (once per app)
-emailjs.init('x9a7g3CaO22WiSR4b'); // <-- 🔁 Replace with your real PUBLIC key
+// Initialize EmailJS once
+emailjs.init('x9a7g3CaO22WiSR4b'); // ✅ Your public key goes here
 
 const emailService = {
   sendEmail: async (data) => {
-    const now = new Date();
-    const date = now.toLocaleDateString();
-    const time = now.toLocaleTimeString();
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleDateString();
+    const timeString = currentDate.toLocaleTimeString();
 
     const templateParams = {
       from_name: data.name,
@@ -21,38 +21,52 @@ const emailService = {
       amount_paid: data.amountPaid,
       mpesa_message: data.mpesaMessage,
       whatsapp_no: data.whatsappNo,
-      date,
-      time,
+      date: dateString,
+      time: timeString,
     };
 
-    console.log("🚀 [EMAILJS] Sending with params:", templateParams);
+    console.log("🔥 [Frontend] Template Params Being Sent:", templateParams);
 
     try {
-      const response = await emailjs.send(
-        'service_icc2fbw',         // ✅ Your EmailJS Service ID
-        'template_0zljxi',         // ✅ Your EmailJS Template ID
-        templateParams,
-        'x9a7g3CaO22WiSR4b'        // ✅ Your EmailJS Public Key
-      );
+      // Attempt to send email via custom backend
+      const response = await fetch('https://regformbackend1.onrender.com/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateParams),
+      });
 
-      console.log("✅ [EMAILJS] Email sent successfully:", response);
+      console.log("📨 [Frontend] Fetch Response Status:", response.status);
 
-      return {
-        success: true,
-        message: 'Email sent successfully via EmailJS.',
-        response,
-      };
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("❌ [Frontend] Backend response not OK:", errorText);
+        throw new Error("Failed to send email via backend");
+      }
+
+      const result = await response.json();
+      console.log("✅ [Frontend] Email sent successfully via backend:", result);
 
     } catch (error) {
-      console.error("❌ [EMAILJS] Email failed to send:", error);
+      console.error("🚨 [Frontend] Backend error caught:", error);
+      console.log("🔄 [Frontend] Falling back to EmailJS...");
 
-      return {
-        success: false,
-        message: error?.text || 'Unknown error from EmailJS.',
-        error,
-      };
+      try {
+        const emailJsResponse = await emailjs.send(
+          'service_icc2fbw',        // ✅ Your EmailJS service ID (no space!)
+          'template_0zljxic',        // ✅ Your EmailJS template ID
+          templateParams,
+          'x9a7g3CaO22WiSR4b'       // ✅ Your EmailJS public key
+        );
+
+        console.log("✅ [Frontend] Email sent successfully via EmailJS:", emailJsResponse);
+      } catch (emailJsError) {
+        console.error("❌ [Frontend] EmailJS failed too:", emailJsError);
+        throw new Error("Email sending failed on both services: " + (emailJsError.message || "Unknown error"));
+      }
     }
-  }
+  },
 };
 
 export default emailService;
