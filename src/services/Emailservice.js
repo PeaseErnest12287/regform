@@ -55,7 +55,7 @@ const emailService = {
       try {
         const emailJsResponse = await emailjs.send(
           'service_icc2fbw',        // ✅ Your EmailJS service ID (no space!)
-          'template_0zljxic',        // ✅ Your EmailJS template ID
+          'template_wbi13f6',        // ✅ Your EmailJS template ID
           templateParams,
           'x9a7g3CaO22WiSR4b'       // ✅ Your EmailJS public key
         );
