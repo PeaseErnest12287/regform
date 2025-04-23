@@ -1,5 +1,8 @@
 import emailjs from 'emailjs-com';
 
+// Initialize EmailJS once
+emailjs.init('x9a7g3CaO22WiSR4b'); // ✅ Your public key goes here
+
 const emailService = {
   sendEmail: async (data) => {
     const currentDate = new Date();
@@ -25,7 +28,7 @@ const emailService = {
     console.log("🔥 [Frontend] Template Params Being Sent:", templateParams);
 
     try {
-      // First, try the custom API service
+      // Attempt to send email via custom backend
       const response = await fetch('https://regformbackend1.onrender.com/send-email', {
         method: 'POST',
         headers: {
@@ -38,29 +41,28 @@ const emailService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("❌ [Frontend] Response not OK:", errorText);
-        throw new Error("Failed to send email");
+        console.error("❌ [Frontend] Backend response not OK:", errorText);
+        throw new Error("Failed to send email via backend");
       }
 
       const result = await response.json();
-      console.log("✅ [Frontend] Email sent successfully:", result);
-    } catch (error) {
-      console.error("🚨 [Frontend] Error caught:", error);
+      console.log("✅ [Frontend] Email sent successfully via backend:", result);
 
-      // If the first attempt fails, fall back to EmailJS
+    } catch (error) {
+      console.error("🚨 [Frontend] Backend error caught:", error);
       console.log("🔄 [Frontend] Falling back to EmailJS...");
 
       try {
         const emailJsResponse = await emailjs.send(
-          'service_icc2fbw ',    // Your EmailJS service ID
-          'template_0zljxi',   // Your EmailJS template ID
+          'service_icc2fbw',        // ✅ Your EmailJS service ID (no space!)
+          'template_0zljxi',        // ✅ Your EmailJS template ID
           templateParams,
-          'x9a7g3CaO22WiSR4b'        // Your EmailJS user ID
+          'x9a7g3CaO22WiSR4b'       // ✅ Your EmailJS public key
         );
 
         console.log("✅ [Frontend] Email sent successfully via EmailJS:", emailJsResponse);
       } catch (emailJsError) {
-        console.error("❌ [Frontend] Error while sending email via EmailJS:", emailJsError);
+        console.error("❌ [Frontend] EmailJS failed too:", emailJsError);
         throw new Error("Email sending failed on both services: " + (emailJsError.message || "Unknown error"));
       }
     }
